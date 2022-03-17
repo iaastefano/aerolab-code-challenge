@@ -105,7 +105,7 @@ const ProductSection: React.FC<ProductSectionProps> = ({
     setRedeemingProductId(id);
     ProductService.redeem(id)
     .then(response => {
-      NotificationManager.success(response.message);
+      NotificationManager.success(response.message, );
     })
     .catch(error => {
       NotificationManager.error(error.message ? error.message : '');
