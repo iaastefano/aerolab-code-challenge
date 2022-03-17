@@ -59,12 +59,9 @@ const Home: React.FC<HomeProps> = ({
     });
   };
 
-
   const handleViewAllProducts = async () => {
-    //TODO
+    window.scrollTo(0, 1833);
   };
-
-
 
   useEffect(
     () => {
@@ -118,7 +115,9 @@ const Home: React.FC<HomeProps> = ({
             />
           </div>
         </div>
-        <ProductGrid points={parseInt(user.points)} fetchUser={fetchUser}></ProductGrid>
+        <div ref={productRef}>
+          <ProductGrid points={parseInt(user.points)} fetchUser={fetchUser}></ProductGrid>
+        </div>
         <footer className='footer'>
           <a target='_blank' href='https://github.com/iaastefano/aerolab-code-challenge' className='nav-link'>
             <img className='icon' src={GithubDefaultSvg} alt="" />
