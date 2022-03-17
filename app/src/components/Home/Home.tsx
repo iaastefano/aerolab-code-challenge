@@ -11,6 +11,7 @@ import EnjoySvg from '../../assets/icons/enjoy.svg';
 import TechZone from '../TechZone/TechZone';
 import IntroCard from '../IntroCard/IntroCard';
 import ProductGrid from '../Product/ProductSection';
+import { stringify } from 'querystring';
 
 interface HomeProps {
 }
@@ -118,7 +119,7 @@ const Home: React.FC<HomeProps> = ({
             />
           </div>
         </div>
-        <ProductGrid></ProductGrid>
+        <ProductGrid points={parseInt(user.points)}></ProductGrid>
         </>
       )}
     </>
