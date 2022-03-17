@@ -4,6 +4,12 @@ html {
   font-size: 18px;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 .semi-bold {
   font-weight: 600;
 }
@@ -1155,8 +1161,22 @@ html {
   flex-grow: 0;
 }
 
-.filter {
+select {
+  background-color: transparent;
+  border: none;
+  padding: 0 1em 0 0;
+  margin: 0;
+  width: 100%;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: inherit;
+  line-height: inherit;
+  outline: none;
+}
+
+.filter-select {
   display: flex;
+  align-items: center;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -1166,6 +1186,17 @@ html {
   width: 256px;
 
   /* Neutrals/0 */
+
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 150%;
+  /* identical to box height, or 27px */
+
+  /* Neutrals/600 */
+
+  color: #7C899C;
 
   background: #FFFFFF;
   /* Neutrals/300 */
@@ -1179,6 +1210,42 @@ html {
   order: 0;
   flex-grow: 0;
   margin: 8px 0px;
+}
+
+.filter-option {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 12px 24px;
+
+  position: static;
+  width: 256px;
+  height: 51px;
+  left: calc(50% - 256px/2);
+  top: 8px;
+
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 150%;
+  /* identical to box height, or 27px */
+
+  /* Neutrals/600 */
+
+  color: #7C899C;
+
+  /* Neutrals/0 */
+
+  background: #FFFFFF;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 0;
+  align-self: stretch;
+  flex-grow: 0;
+  margin: 0px 0px;
 }
 
 .filter-horizontal-divider {
@@ -1417,5 +1484,26 @@ html {
   flex: none;
   flex-grow: 0;
   margin: 0px 24px 0px 24px;
+}
+
+.products {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+
+  position: static;
+  width: 1464px;
+  height: 2264px;
+  left: calc(50% - 1464px/2);
+  top: 206px;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 1;
+  align-self: stretch;
+  flex-grow: 0;
+  margin: 64px 0px;
 }
 /* END PRODUCT SECTION */
