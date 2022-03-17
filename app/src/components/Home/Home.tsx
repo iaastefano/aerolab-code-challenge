@@ -12,10 +12,15 @@ import BrowseSvg from '../../assets/icons/browse.svg';
 import EnjoySvg from '../../assets/icons/enjoy.svg';
 import TechZone from '../TechZone/TechZone';
 import IntroCard from '../IntroCard/IntroCard';
-import { Button, Dropdown } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
+import ChevronDefaultSvg from '../../assets/icons/chevron-default-1.svg';
+import ChevronActiveSvg from '../../assets/icons/chevron-active-1.svg';
 
 interface HomeProps {
 }
+
+const CATEGORY_ALL_PRODUCTS = 'All Products';
+const ITEMS_PER_PAGE = 16;
 
 const Home: React.FC<HomeProps> = ({
 }) => {
@@ -28,10 +33,12 @@ const Home: React.FC<HomeProps> = ({
     redeemHistory: []
   });
   const [products, setProducts] = useState<IProduct[]>([]);
-  const [categories, setCategories] = useState<string[]>([]);
+  const [categories, setCategories] = useState<string[]>([CATEGORY_ALL_PRODUCTS]);
   const [isBalanceCardOpen, setIsBalanceCardOpen] = useState<boolean>(false);
   const [addPointsOption, setAddPointsOption] = useState<number>(1);
   const [sortSelectorActive, setSortSelectorActive] = useState<number>(0);
+  const [actualPage, setActualPage] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(0);
 
 
   const unique = (value: any, index: any, self: any) => {
@@ -61,10 +68,15 @@ const Home: React.FC<HomeProps> = ({
 
       setProducts(response);
 
-      let categories = response.map(product => product.category);
+      if(response.length > 0)
+      {
+        setTotalPages(Math.ceil(response.length / ITEMS_PER_PAGE));
+        setActualPage(1);
+      }
 
-      setCategories(categories.filter(unique));
+      let uniqueCategories = response.map(product => product.category).filter(unique);
 
+      setCategories(categories.concat(uniqueCategories));
     } catch (error) {
       // if (error.message) {
       //   // message.error(error.message);
@@ -90,6 +102,14 @@ const Home: React.FC<HomeProps> = ({
 
   const handleViewAllProducts = async () => {
     //TODO
+  };
+
+  const changeActualPage = async (quantity: number) => {
+    let newActualPage = actualPage + quantity;
+    if(newActualPage > 0 && newActualPage <= totalPages)
+    {
+      setActualPage(newActualPage);
+    }
   };
 
   useEffect(
@@ -153,7 +173,7 @@ const Home: React.FC<HomeProps> = ({
                   {'TECH '}
                 </span>
                 <span className='title-products'>
-                  PRODUCTS
+                  {'PRODUCTS'}
                 </span>
               </div>
               <div className='filter-sort-and-pager'>
@@ -167,27 +187,48 @@ const Home: React.FC<HomeProps> = ({
                       </select>
                     </div>
                   </div>
+                  <div className='filter-horizontal-divider'>
+                  </div>
                   <div className='sort-by-container'>
                     <div className='sort-by-text'>
                       Sort by:
                     </div>
                     <div className='sort-row'>
-                      <Button variant={sortSelectorActive != 0 ? 'sort-selector' : 'sort-selector-active'}>
+                      <Button variant={sortSelectorActive != 0 ? 'sort-selector' : 'sort-selector-active'} onClick={(e: any) => setSortSelectorActive(0)}>
                         <div className={sortSelectorActive != 0 ? 'sort-selector-text' : 'sort-selector-text-active'}>
                           {sortSelectors[0]}
                         </div>
                       </Button>
-                      <Button variant={sortSelectorActive != 1 ? 'sort-selector' : 'sort-selector-active'}>
+                      <Button variant={sortSelectorActive != 1 ? 'sort-selector' : 'sort-selector-active'} onClick={(e: any) => setSortSelectorActive(1)}>
                         <div className={sortSelectorActive != 1 ? 'sort-selector-text' : 'sort-selector-text-active'}>
                           {sortSelectors[1]}
                         </div>
                       </Button>
-                      <Button variant={sortSelectorActive != 2 ? 'sort-selector' : 'sort-selector-active'}>
+                      <Button variant={sortSelectorActive != 2 ? 'sort-selector' : 'sort-selector-active'} onClick={(e: any) => setSortSelectorActive(2)}>
                         <div className={sortSelectorActive != 2 ? 'sort-selector-text' : 'sort-selector-text-active'}>
                           {sortSelectors[2]}
                         </div>
                       </Button>
                     </div>
+                  </div>
+                </div>
+                <div className='pager'>
+                  <div>
+                    <Button variant='pager-arrow-buttons' onClick={(e: any) => changeActualPage(-1) }>
+                      <div className='icons' style={{'transform' : 'rotate(-180deg)'}}>
+                        <img src={actualPage == 1 ? ChevronActiveSvg : ChevronDefaultSvg} alt="" />
+                      </div>
+                    </Button>
+                  </div>
+                  <div className='pager-text'>
+                  {`Page ${actualPage} of ${totalPages}`}
+                  </div>
+                  <div>
+                  <Button variant='pager-arrow-buttons' onClick={(e: any) => changeActualPage(1)}>
+                    <div className='icons'>
+                      <img src={actualPage == totalPages ? ChevronActiveSvg : ChevronDefaultSvg} alt="" />
+                    </div>
+                  </Button>
                   </div>
                 </div>
               </div>
@@ -201,3 +242,4 @@ const Home: React.FC<HomeProps> = ({
 };
 
 export default Home;
+
