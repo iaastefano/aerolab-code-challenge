@@ -29,9 +29,7 @@ const IntroCard: React.FC<IntroCardProps> = ({
         <div className='bottom-card'>
           <div className='title-and-icon'>
             <div className='icon-wrapper'>
-              <div className='icons'>
-                <img src={icon} alt="" />
-              </div>
+              <img className='icons' src={icon} alt="" />
             </div>
             <div className='title'>
               {title}

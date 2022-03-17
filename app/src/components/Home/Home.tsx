@@ -8,6 +8,7 @@ import NavBar from '../NavBar/NavBar';
 import ChooseSvg from '../../assets/icons/choose.svg';
 import BrowseSvg from '../../assets/icons/browse.svg';
 import EnjoySvg from '../../assets/icons/enjoy.svg';
+import GithubDefaultSvg from '../../assets/icons/github-default.svg';
 import TechZone from '../TechZone/TechZone';
 import IntroCard from '../IntroCard/IntroCard';
 import ProductGrid from '../Product/ProductSection';
@@ -33,10 +34,7 @@ const Home: React.FC<HomeProps> = ({
 
   const fetchUser = async () => {
     try {
-      setIsLoading(true);
-
       const response = await UserService.fetchUser();
-
       setUser(response);
     } catch (error) {
       // if (error.message) {
@@ -58,6 +56,7 @@ const Home: React.FC<HomeProps> = ({
         points: user.points + addPointsOptions[addPointsOption],
       });
     }
+    UserService.addPoints(addPointsOptions[addPointsOption]);
   };
 
 
@@ -119,7 +118,15 @@ const Home: React.FC<HomeProps> = ({
             />
           </div>
         </div>
-        <ProductGrid points={parseInt(user.points)}></ProductGrid>
+        <ProductGrid points={parseInt(user.points)} fetchUser={fetchUser}></ProductGrid>
+        <footer className='footer'>
+          <a target='_blank' href='https://github.com/iaastefano/aerolab-code-challenge' className='nav-link'>
+            <img className='icon' src={GithubDefaultSvg} alt="" />
+            <div className='default-link'>View this repository</div>
+          </a>          
+        </footer>
+        <div className='background-pattern'>
+        </div>
         </>
       )}
     </>

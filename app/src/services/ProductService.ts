@@ -10,6 +10,15 @@ class ProductService {
       url: ApiResourcesEnum.PRODUCTS,
     });
   }
+
+  public static redeem(id: string): Promise<string> {
+    return FetchService.post<string>({
+      url: ApiResourcesEnum.REDEEM,
+      body: {
+        'productId': id
+      }
+    });
+  }
 }
 
 export default ProductService;

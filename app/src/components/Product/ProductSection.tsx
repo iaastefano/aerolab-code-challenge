@@ -8,16 +8,18 @@ import AeropayOneSvg from '../../assets/icons/aeropay-1.svg';
 import AeropayTwoSvg from '../../assets/icons/aeropay-2.svg';
 import AeropayThreeSvg from '../../assets/icons/aeropay-3.svg';
 import AeropayFourSvg from '../../assets/icons/aeropay-4.svg';
+import { setTimeout } from 'timers/promises';
 
 interface ProductSectionProps {
   points: number;
+  fetchUser: () => void;
 }
 
 const CATEGORY_ALL_PRODUCTS = 'All Products';
 const ITEMS_PER_PAGE = 16;
 
 const ProductSection: React.FC<ProductSectionProps> = ({
-  points
+  points, fetchUser
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -27,6 +29,7 @@ const ProductSection: React.FC<ProductSectionProps> = ({
   const [sortSelectorActive, setSortSelectorActive] = useState<number>(0);
   const [actualPage, setActualPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);
+  const [redeemingProductId, setRedeemingProductId] = useState<string>('');
 
   const unique = (value: any, index: any, self: any) => {
     return self.indexOf(value) === index
@@ -96,6 +99,13 @@ const ProductSection: React.FC<ProductSectionProps> = ({
     setFilteredProducts(newFilteredProducts);
   };
 
+  const redeemProduct = async (id: string) => {
+    setRedeemingProductId(id);
+    await ProductService.redeem(id);
+    await fetchUser();
+    setRedeemingProductId('');
+  };
+
   useEffect(
     () => {
       if(isLoading){
@@ -125,7 +135,6 @@ const ProductSection: React.FC<ProductSectionProps> = ({
                     Filter by
                   </div>
                   <div className='filter-container'>
-                    {/* TODO: IMPROVE STYLE */}
                     <Form.Select className='filter-select' onChange={(e: any) => changeActualCategory(e)}>
                       {categories.map(category => (
                           <option className='filter-option'
@@ -195,6 +204,7 @@ const ProductSection: React.FC<ProductSectionProps> = ({
                         if(index < filteredProducts.length) {
                           let product = filteredProducts[index];
                           let canRedeem = points >= product.cost;
+                          let isRedeeming = product._id == redeemingProductId;
                           return (
                             <td>
                               <div className='item-container'>
@@ -214,9 +224,15 @@ const ProductSection: React.FC<ProductSectionProps> = ({
                                       </div>
                                     </div>
                                   </div>
-                                  {canRedeem ? 
+                                  {isRedeeming ? 
+                                  (<Button variant={'cta'} disabled>
+                                    <div className='redeem-for'>
+                                      Processing...
+                                    </div>
+                                  </Button>) 
+                                  : (canRedeem ? 
                                   (
-                                    <Button variant={'cta'}>
+                                    <Button variant={'cta'} onClick={(e: any) => redeemProduct(product._id)}>
                                       <div className='redeem-for'>
                                         Redeem for
                                       </div>
@@ -244,7 +260,7 @@ const ProductSection: React.FC<ProductSectionProps> = ({
                                         </div>
                                       </div>
                                     </Button>
-                                  )
+                                  ))
                                   }
                                 </div>
                               </div>
@@ -258,6 +274,30 @@ const ProductSection: React.FC<ProductSectionProps> = ({
                   ))}
                 </tbody>
               </table>
+            </div>
+          </div>
+          <div className='number-of-products-and-pager'>
+            <div className='number-of-products'>
+              {(filteredProducts.length > ITEMS_PER_PAGE ? ITEMS_PER_PAGE : filteredProducts.length) + ' of ' + filteredProducts.length + ' products'}
+            </div>
+            <div className='pager'>
+              <div>
+                <Button variant='pager-arrow-buttons' onClick={(e: any) => changeActualPage(-1) }>
+                  <div className='icons' style={{'transform' : 'rotate(-180deg)'}}>
+                    <img src={actualPage == 1 ? ChevronActiveSvg : ChevronDefaultSvg} alt="" />
+                  </div>
+                </Button>
+              </div>
+              <div className='pager-text'>
+              {`Page ${actualPage} of ${totalPages}`}
+              </div>
+              <div>
+              <Button variant='pager-arrow-buttons' onClick={(e: any) => changeActualPage(1)}>
+                <div className='icons'>
+                  <img src={actualPage == totalPages ? ChevronActiveSvg : ChevronDefaultSvg} alt="" />
+                </div>
+              </Button>
+              </div>
             </div>
           </div>
         </div>

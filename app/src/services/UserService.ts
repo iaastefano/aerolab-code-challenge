@@ -8,6 +8,15 @@ class UserService {
       url: ApiResourcesEnum.USER_ME,
     });
   }
+
+  public static addPoints(points: number): Promise<string> {
+    return FetchService.post<string>({
+      url: ApiResourcesEnum.ADD_POINTS,
+      body: {
+        "amount": points
+      }
+    });
+  }
 }
 
 export default UserService;
