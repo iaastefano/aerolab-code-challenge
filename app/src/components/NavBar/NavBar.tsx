@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { IUser } from '../../no-state/users/models';
 import chevronActiveIcon from '../../assets/icons/chevron-active.svg';
 import aeropayOne from '../../assets/icons/aeropay-1.svg';
@@ -27,6 +27,7 @@ const NavBar: React.FC<NavBarProps> = ({
       </Popover.Header>
       <Popover.Body className='body'>
         <div className='aerocard'>
+          <div className='aerocard-background'></div>
           <div className='name-and-icon'>
             <div>
               <span className='secondary-color semi-bold'>Aerocard</span>
