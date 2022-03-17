@@ -115,9 +115,7 @@ const Home: React.FC<HomeProps> = ({
             />
           </div>
         </div>
-        <div ref={productRef}>
-          <ProductGrid points={parseInt(user.points)} fetchUser={fetchUser}></ProductGrid>
-        </div>
+        <ProductGrid points={parseInt(user.points)} fetchUser={fetchUser}></ProductGrid>
         <footer className='footer'>
           <a target='_blank' href='https://github.com/iaastefano/aerolab-code-challenge' className='nav-link'>
             <img className='icon' src={GithubDefaultSvg} alt="" />
