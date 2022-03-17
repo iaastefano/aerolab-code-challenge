@@ -10,13 +10,13 @@ import { Button, OverlayTrigger, Popover } from 'react-bootstrap';
 interface NavBarProps {
   user: IUser;
   handleAddPoints: () => void;
+  setAddPointsOption: (option: number) => void;
+  addPointsOption: number;
 }
 
 const NavBar: React.FC<NavBarProps> = ({
-  user, handleAddPoints
+  user, handleAddPoints, setAddPointsOption, addPointsOption
 }) => {
-  const [isBalanceCardOpen, setIsBalanceCardOpen] = useState<boolean>(false);
-  const [addPointsOption, setAddPointsOption] = useState<number>(1);
 
   const addPointsOptions = [1000, 5000, 7500];
 
@@ -79,25 +79,23 @@ const NavBar: React.FC<NavBarProps> = ({
 
   return (
     <>
-      <div className='landing-section'>
-        <div className='nav-bar'>
-          <div className='aerolab-logo'>
-            <img src={aerolabLogo} alt="" />
-          </div>
-          <OverlayTrigger trigger="click" placement="left" overlay={popover}>
-            <Button variant="aero-coins">
-              <div>
-                <img className='aeropay-logo' src={aeropayOne}></img>
-              </div>
-              <span className='coin-amount'>
-                {user.points}
-              </span>
-              <div className='icons' style={{"transform": "rotate(180deg)"}}>
-                <img src={chevronActiveIcon} alt=""/>
-              </div>
-            </Button>
-          </OverlayTrigger>
+      <div className='nav-bar'>
+        <div className='aerolab-logo'>
+          <img src={aerolabLogo} alt="" />
         </div>
+        <OverlayTrigger trigger="click" placement="left" overlay={popover}>
+          <Button variant="aero-coins">
+            <div>
+              <img className='aeropay-logo' src={aeropayOne}></img>
+            </div>
+            <span className='coin-amount'>
+              {user.points}
+            </span>
+            <div className='icons' style={{"transform": "rotate(180deg)"}}>
+              <img src={chevronActiveIcon} alt=""/>
+            </div>
+          </Button>
+        </OverlayTrigger>
       </div>
     </>
   );

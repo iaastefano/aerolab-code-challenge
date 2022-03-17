@@ -3,9 +3,16 @@ import ProductService from '../../services/ProductService';
 import { IUser } from '../../no-state/users/models';
 import { IProduct } from '../../no-state/products/models';
 import UserService from '../../services/UserService';
-import HeroDesktop from '../../assets/illustrations/hero-desktop.png';
+import WalkthroughOne from '../../assets/illustrations/walkthroug-1-desktop.png';
+import WalkthroughTwo from '../../assets/illustrations/walkthroug-2-desktop.png';
+import WalkthroughThree from '../../assets/illustrations/walkthroug-3-desktop.png';
 import NavBar from '../NavBar/NavBar';
-import { Button } from 'react-bootstrap';
+import ChooseSvg from '../../assets/icons/choose.svg';
+import BrowseSvg from '../../assets/icons/browse.svg';
+import EnjoySvg from '../../assets/icons/enjoy.svg';
+import TechZone from '../TechZone/TechZone';
+import IntroCard from '../IntroCard/IntroCard';
+import { Button, Dropdown } from 'react-bootstrap';
 
 interface HomeProps {
 }
@@ -24,6 +31,7 @@ const Home: React.FC<HomeProps> = ({
   const [categories, setCategories] = useState<string[]>([]);
   const [isBalanceCardOpen, setIsBalanceCardOpen] = useState<boolean>(false);
   const [addPointsOption, setAddPointsOption] = useState<number>(1);
+  const [sortSelectorActive, setSortSelectorActive] = useState<number>(0);
 
 
   const unique = (value: any, index: any, self: any) => {
@@ -64,15 +72,9 @@ const Home: React.FC<HomeProps> = ({
     }
   };
 
-  const changeBalanceCard = async () => {
-    debugger;
-    setIsBalanceCardOpen(!isBalanceCardOpen);
-  };
-
   const addPointsOptions = [1000, 5000, 7500];
 
   const handleAddPoints = async () => {
-    debugger;
     if(user){
       setUser({
         createDate: user.createDate,
@@ -84,6 +86,11 @@ const Home: React.FC<HomeProps> = ({
     }
   };
 
+  const sortSelectors  = ['Most Recent', 'Lowest Price', 'Highest Price'];
+
+  const handleViewAllProducts = async () => {
+    //TODO
+  };
 
   useEffect(
     () => {
@@ -103,31 +110,89 @@ const Home: React.FC<HomeProps> = ({
       ) : (
         <>
         <div className='landing-section'>
-          <div className='illustration-container'>
-            <img src={HeroDesktop} alt="" />
+          <TechZone handleViewAllProducts={handleViewAllProducts}></TechZone>
+          <NavBar 
+            user={user} 
+            handleAddPoints={handleAddPoints} 
+            setAddPointsOption={setAddPointsOption} 
+            addPointsOption={addPointsOption}>
+          </NavBar>
+        </div>
+        <div className="walkthrough-section">
+          <div className="walkthrough-cards-bg">
           </div>
-          <div className='copy-and-cta'>
-            <div className='landing-copy'>
-              <div className='label-and-title'>
-                <div className='explore-the'>
-                  Explore the
-                </div>
-                <div className='tech'>
-                  TECH
-                </div>
-                <div className='zone'>
-                  ZONE
-                </div>
-                <div className='long-text'>
-                  Here you’ll be able to exchange all of your hard-earned Aeropoints and exchange them for cool tech.
+          <div className="walkthrough-cards">
+            <IntroCard 
+              type={'browse'} 
+              image={WalkthroughOne} 
+              title={'1—browse'} 
+              text={'Browse our tech catalog with more than 20 top tech products'} 
+              icon={BrowseSvg} 
+            />
+            <IntroCard 
+              type={'choose'} 
+              image={WalkthroughTwo} 
+              title={'2—choose'} 
+              text={'Exchange your hard earned AeroPoints for the item you want'} 
+              icon={ChooseSvg}
+            />
+            <IntroCard 
+              type={'enjoy'} 
+              image={WalkthroughThree} 
+              title={'3—enjoy!'} 
+              text={'All done, you can relax! We’ll take care of delivery of your tech item!'} 
+              icon={EnjoySvg}
+            />
+          </div>
+        </div>
+        <div className='product-section'>
+          <div className='header-products-and-bottom-pager'>
+            <div className='title-and-controls'>
+              <div className='title'>
+                <span className='title-tech'>
+                  {'TECH '}
+                </span>
+                <span className='title-products'>
+                  PRODUCTS
+                </span>
+              </div>
+              <div className='filter-sort-and-pager'>
+                <div className='filters'>
+                  <div className='filter-by'>
+                    <div className='filter-text'>
+                      Filter by
+                    </div>
+                    <div className='filter-container'>
+                      <select className='filter'  placeholder='All products'>
+                      </select>
+                    </div>
+                  </div>
+                  <div className='sort-by-container'>
+                    <div className='sort-by-text'>
+                      Sort by:
+                    </div>
+                    <div className='sort-row'>
+                      <Button variant={sortSelectorActive != 0 ? 'sort-selector' : 'sort-selector-active'}>
+                        <div className={sortSelectorActive != 0 ? 'sort-selector-text' : 'sort-selector-text-active'}>
+                          {sortSelectors[0]}
+                        </div>
+                      </Button>
+                      <Button variant={sortSelectorActive != 1 ? 'sort-selector' : 'sort-selector-active'}>
+                        <div className={sortSelectorActive != 1 ? 'sort-selector-text' : 'sort-selector-text-active'}>
+                          {sortSelectors[1]}
+                        </div>
+                      </Button>
+                      <Button variant={sortSelectorActive != 2 ? 'sort-selector' : 'sort-selector-active'}>
+                        <div className={sortSelectorActive != 2 ? 'sort-selector-text' : 'sort-selector-text-active'}>
+                          {sortSelectors[2]}
+                        </div>
+                      </Button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-            <Button variant={'view-products'}>
-              <div className='view-products-text'>VIEW ALL PRODUCTS</div>
-            </Button>
           </div>
-          <NavBar user={user} handleAddPoints={handleAddPoints}></NavBar>
         </div>
         </>
       )}
