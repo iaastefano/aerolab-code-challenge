@@ -4,12 +4,8 @@ import { IProduct } from '../../no-state/products/models';
 import { Button, Form } from 'react-bootstrap';
 import ChevronDefaultSvg from '../../assets/icons/chevron-default-1.svg';
 import ChevronActiveSvg from '../../assets/icons/chevron-active-1.svg';
-import AeropayOneSvg from '../../assets/icons/aeropay-1.svg';
-import AeropayTwoSvg from '../../assets/icons/aeropay-2.svg';
 import AeropayThreeSvg from '../../assets/icons/aeropay-3.svg';
 import AeropayFourSvg from '../../assets/icons/aeropay-4.svg';
-import { setTimeout } from 'timers/promises';
-
 interface ProductSectionProps {
   points: number;
   fetchUser: () => void;
@@ -73,14 +69,16 @@ const ProductSection: React.FC<ProductSectionProps> = ({
   
   const changeActualCategory = async (e: any) => {
     let category = e.currentTarget.selectedIndex;
-    setActualCategory(category);
-    let newFilteredProducts = products;
-    if(category != 0) {
-      newFilteredProducts = products.filter(product => product.category == categories[category]);
+    if(category !== actualCategory) {
+      setActualCategory(category);
+      let newFilteredProducts = products;
+      if(category !== 0) {
+        newFilteredProducts = products.filter(product => product.category === categories[category]);
+      }
+      setFilteredProducts(newFilteredProducts);
+      setActualPage(1);
+      setTotalPages(Math.ceil(newFilteredProducts.length / ITEMS_PER_PAGE));
     }
-    setFilteredProducts(newFilteredProducts);
-    setActualPage(1);
-    setTotalPages(Math.ceil(newFilteredProducts.length / ITEMS_PER_PAGE));
   };
 
   const changeSortSelector = async (option: number) => {
@@ -113,6 +111,7 @@ const ProductSection: React.FC<ProductSectionProps> = ({
         setIsLoading(false);
       }
     },
+    [fetchProducts, isLoading]
   );
 
   return (
@@ -154,18 +153,18 @@ const ProductSection: React.FC<ProductSectionProps> = ({
                     Sort by:
                   </div>
                   <div className='sort-row'>
-                    <Button variant={sortSelectorActive != 0 ? 'sort-selector' : 'sort-selector-active'} onClick={(e: any) => changeSortSelector(0)}>
-                      <div className={sortSelectorActive != 0 ? 'sort-selector-text' : 'sort-selector-text-active'}>
+                    <Button variant={sortSelectorActive !== 0 ? 'sort-selector' : 'sort-selector-active'} onClick={(e: any) => changeSortSelector(0)}>
+                      <div className={sortSelectorActive !== 0 ? 'sort-selector-text' : 'sort-selector-text-active'}>
                         {sortSelectors[0]}
                       </div>
                     </Button>
-                    <Button variant={sortSelectorActive != 1 ? 'sort-selector' : 'sort-selector-active'} onClick={(e: any) => changeSortSelector(1)}>
-                      <div className={sortSelectorActive != 1 ? 'sort-selector-text' : 'sort-selector-text-active'}>
+                    <Button variant={sortSelectorActive !== 1 ? 'sort-selector' : 'sort-selector-active'} onClick={(e: any) => changeSortSelector(1)}>
+                      <div className={sortSelectorActive !== 1 ? 'sort-selector-text' : 'sort-selector-text-active'}>
                         {sortSelectors[1]}
                       </div>
                     </Button>
-                    <Button variant={sortSelectorActive != 2 ? 'sort-selector' : 'sort-selector-active'} onClick={(e: any) => changeSortSelector(2)}>
-                      <div className={sortSelectorActive != 2 ? 'sort-selector-text' : 'sort-selector-text-active'}>
+                    <Button variant={sortSelectorActive !== 2 ? 'sort-selector' : 'sort-selector-active'} onClick={(e: any) => changeSortSelector(2)}>
+                      <div className={sortSelectorActive !== 2 ? 'sort-selector-text' : 'sort-selector-text-active'}>
                         {sortSelectors[2]}
                       </div>
                     </Button>
@@ -176,7 +175,7 @@ const ProductSection: React.FC<ProductSectionProps> = ({
                 <div>
                   <Button variant='pager-arrow-buttons' onClick={(e: any) => changeActualPage(-1) }>
                     <div className='icons' style={{'transform' : 'rotate(-180deg)'}}>
-                      <img src={actualPage == 1 ? ChevronActiveSvg : ChevronDefaultSvg} alt="" />
+                      <img src={actualPage === 1 ? ChevronActiveSvg : ChevronDefaultSvg} alt="" />
                     </div>
                   </Button>
                 </div>
@@ -186,7 +185,7 @@ const ProductSection: React.FC<ProductSectionProps> = ({
                 <div>
                 <Button variant='pager-arrow-buttons' onClick={(e: any) => changeActualPage(1)}>
                   <div className='icons'>
-                    <img src={actualPage == totalPages ? ChevronActiveSvg : ChevronDefaultSvg} alt="" />
+                    <img src={actualPage === totalPages ? ChevronActiveSvg : ChevronDefaultSvg} alt="" />
                   </div>
                 </Button>
                 </div>
@@ -204,7 +203,7 @@ const ProductSection: React.FC<ProductSectionProps> = ({
                         if(index < filteredProducts.length) {
                           let product = filteredProducts[index];
                           let canRedeem = points >= product.cost;
-                          let isRedeeming = product._id == redeemingProductId;
+                          let isRedeeming = product._id === redeemingProductId;
                           return (
                             <td>
                               <div className='item-container'>
@@ -284,7 +283,7 @@ const ProductSection: React.FC<ProductSectionProps> = ({
               <div>
                 <Button variant='pager-arrow-buttons' onClick={(e: any) => changeActualPage(-1) }>
                   <div className='icons' style={{'transform' : 'rotate(-180deg)'}}>
-                    <img src={actualPage == 1 ? ChevronActiveSvg : ChevronDefaultSvg} alt="" />
+                    <img src={actualPage === 1 ? ChevronActiveSvg : ChevronDefaultSvg} alt="" />
                   </div>
                 </Button>
               </div>
@@ -294,7 +293,7 @@ const ProductSection: React.FC<ProductSectionProps> = ({
               <div>
               <Button variant='pager-arrow-buttons' onClick={(e: any) => changeActualPage(1)}>
                 <div className='icons'>
-                  <img src={actualPage == totalPages ? ChevronActiveSvg : ChevronDefaultSvg} alt="" />
+                  <img src={actualPage === totalPages ? ChevronActiveSvg : ChevronDefaultSvg} alt="" />
                 </div>
               </Button>
               </div>

@@ -27,13 +27,14 @@ const NavBar: React.FC<NavBarProps> = ({
       </Popover.Header>
       <Popover.Body className='body'>
         <div className='aerocard'>
-          <div className='aerocard-background'></div>
+          <div className='aerocard-background'>
+          </div>
           <div className='name-and-icon'>
             <div>
               <span className='secondary-color semi-bold'>Aerocard</span>
             </div>
             <div>
-              <img src={aeropayTwo} alt="" />
+              <img src={aeropayTwo} alt="aeropayTwo" />
             </div>
           </div>
           <div className='name-and-date'>
@@ -47,18 +48,18 @@ const NavBar: React.FC<NavBarProps> = ({
         </div>
         <div className='amount-and-cta'>
           <div className='amounts'>
-            <Button variant={addPointsOption != 0 ? 'selectors' : 'selectors-active'} onClick={(e: any) => setAddPointsOption(0)}>
-              <span className={addPointsOption != 0 ? 'selectors-text semi-bold' : 'selectors-text-active semi-bold'}>
+            <Button variant={addPointsOption !== 0 ? 'selectors' : 'selectors-active'} onClick={(e: any) => setAddPointsOption(0)}>
+              <span className={addPointsOption !== 0 ? 'selectors-text semi-bold' : 'selectors-text-active semi-bold'}>
                 {addPointsOptions[0]}
               </span>
             </Button>
-            <Button variant={addPointsOption != 1 ? 'selectors' : 'selectors-active'} onClick={(e: any) => setAddPointsOption(1)}>
-              <span className={addPointsOption != 1 ? 'selectors-text semi-bold' : 'selectors-text-active semi-bold'}>
+            <Button variant={addPointsOption !== 1 ? 'selectors' : 'selectors-active'} onClick={(e: any) => setAddPointsOption(1)}>
+              <span className={addPointsOption !== 1 ? 'selectors-text semi-bold' : 'selectors-text-active semi-bold'}>
                 {addPointsOptions[1]}
               </span>
             </Button>
-            <Button variant={addPointsOption != 2 ? 'selectors' : 'selectors-active'} onClick={(e: any) => setAddPointsOption(2)}>
-              <span className={addPointsOption != 2 ? 'selectors-text semi-bold' : 'selectors-text-active semi-bold'}>
+            <Button variant={addPointsOption !== 2 ? 'selectors' : 'selectors-active'} onClick={(e: any) => setAddPointsOption(2)}>
+              <span className={addPointsOption !== 2 ? 'selectors-text semi-bold' : 'selectors-text-active semi-bold'}>
                 {addPointsOptions[2]}
               </span>
             </Button>
@@ -66,7 +67,7 @@ const NavBar: React.FC<NavBarProps> = ({
           <Button variant='cta' onClick={(e: any) => handleAddPoints()}>
             <div className='frame153'>
               <div>
-                <img src={aeropayThree} alt="" />
+                <img src={aeropayThree} alt="aeropayThree" />
               </div>
               <div className='add-points'>
                 Add Points
@@ -87,13 +88,13 @@ const NavBar: React.FC<NavBarProps> = ({
         <OverlayTrigger trigger="click" placement="left" overlay={popover}>
           <Button variant="aero-coins">
             <div>
-              <img className='aeropay-logo' src={aeropayOne}></img>
+              <img className='aeropay-logo' src={aeropayOne} alt='aeropay-logo'></img>
             </div>
             <span className='coin-amount'>
               {user.points}
             </span>
             <div className='icons' style={{"transform": "rotate(180deg)"}}>
-              <img src={chevronActiveIcon} alt=""/>
+              <img src={chevronActiveIcon} alt="chevron-active"/>
             </div>
           </Button>
         </OverlayTrigger>
