@@ -6,6 +6,10 @@ import ChevronDefaultSvg from '../../assets/icons/chevron-default-1.svg';
 import ChevronActiveSvg from '../../assets/icons/chevron-active-1.svg';
 import AeropayThreeSvg from '../../assets/icons/aeropay-3.svg';
 import AeropayFourSvg from '../../assets/icons/aeropay-4.svg';
+import { NotificationManager } from 'react-notifications';
+import { stringify } from 'querystring';
+import { error } from 'console';
+
 interface ProductSectionProps {
   points: number;
   fetchUser: () => void;
@@ -99,7 +103,13 @@ const ProductSection: React.FC<ProductSectionProps> = ({
 
   const redeemProduct = async (id: string) => {
     setRedeemingProductId(id);
-    await ProductService.redeem(id);
+    ProductService.redeem(id)
+    .then(response => {
+      NotificationManager.success(response.message);
+    })
+    .catch(error => {
+      NotificationManager.error(error.message ? error.message : '');
+    });
     await fetchUser();
     setRedeemingProductId('');
   };

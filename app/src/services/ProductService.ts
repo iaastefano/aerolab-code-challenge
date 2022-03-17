@@ -11,7 +11,7 @@ class ProductService {
     });
   }
 
-  public static redeem(id: string): Promise<string> {
+  public static redeem(id: string): Promise<any> {
     return FetchService.post<string>({
       url: ApiResourcesEnum.REDEEM,
       body: {

@@ -12,7 +12,7 @@ import GithubDefaultSvg from '../../assets/icons/github-default.svg';
 import TechZone from '../TechZone/TechZone';
 import IntroCard from '../IntroCard/IntroCard';
 import ProductGrid from '../Product/ProductSection';
-import { stringify } from 'querystring';
+import { NotificationContainer, NotificationManager} from 'react-notifications';
 
 interface HomeProps {
 }
@@ -33,14 +33,8 @@ const Home: React.FC<HomeProps> = ({
   const [addPointsOption, setAddPointsOption] = useState<number>(1);
 
   const fetchUser = async () => {
-    try {
       const response = await UserService.fetchUser();
       setUser(response);
-    } catch (error) {
-      // if (error.message) {
-      //   // message.error(error.message);
-      // }
-    }
   };
 
  
@@ -56,7 +50,13 @@ const Home: React.FC<HomeProps> = ({
         points: user.points + addPointsOptions[addPointsOption],
       });
     }
-    UserService.addPoints(addPointsOptions[addPointsOption]);
+    UserService.addPoints(addPointsOptions[addPointsOption])    
+    .then(response => {
+      NotificationManager.success(response.message);
+    })
+    .catch(error => {
+      NotificationManager.error(error.message ? error.message : '');
+    });
   };
 
 
@@ -127,6 +127,7 @@ const Home: React.FC<HomeProps> = ({
         </footer>
         <div className='background-pattern'>
         </div>
+        <NotificationContainer/>
         </>
       )}
     </>

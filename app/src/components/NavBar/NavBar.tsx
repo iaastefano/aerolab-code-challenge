@@ -6,6 +6,7 @@ import aeropayTwo from '../../assets/icons/aeropay-2.svg';
 import aeropayThree from '../../assets/icons/aeropay-3.svg';
 import aerolabLogo from '../../assets/icons/aerolab-logo-1.svg';
 import { Button, OverlayTrigger, Popover } from 'react-bootstrap';
+import { NotificationManager } from 'react-notifications';
 
 interface NavBarProps {
   user: IUser;

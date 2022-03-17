@@ -9,7 +9,7 @@ class UserService {
     });
   }
 
-  public static addPoints(points: number): Promise<string> {
+  public static addPoints(points: number): Promise<any> {
     return FetchService.post<string>({
       url: ApiResourcesEnum.ADD_POINTS,
       body: {
